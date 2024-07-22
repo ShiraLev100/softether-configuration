@@ -9,7 +9,6 @@ import ctypes
 import sys
 import subprocess
 #from ttkthemes import ThemedStyle
-import argparse
 
 # Add logging configuration
 import logging
@@ -225,16 +224,13 @@ class SMBClientGUI:
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="SMB Client GUI with command-line options")
-    parser.add_argument('--username', type=str, help="Username for SMB client")
-    parser.add_argument('--password', type=str, help="Password for SMB client")
-    args = parser.parse_args()
-
     if ctypes.windll.shell32.IsUserAnAdmin():
         print("Already running as admin.")
         root = tk.Tk()
-        app = SMBClientGUI(root, args.username, args.password)
+        app = SMBClientGUI(root)
         root.mainloop()
+        input("Press Enter to exit...")
+
     else:
         print("Not running as admin. Attempting to elevate privileges.")
         ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
